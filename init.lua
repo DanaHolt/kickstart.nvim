@@ -185,10 +185,18 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
-vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
-vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
-vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
-vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+-- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+-- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+-- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+-- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+
+-- Debugging Keumaps
+vim.keymap.set('n', '<leader>d', '<cmd>:DapNew<cr>', { desc = 'Start debugger' })
+vim.keymap.set('n', '<leader>db', '<cmd>:DapToggleBreakpoint<cr>', { desc = 'Toggle breakpoint' })
+vim.keymap.set('n', '<left>', '<cmd>:DapStepOut<cr>')
+vim.keymap.set('n', '<right>', '<cmd>:DapStepInto<cr>')
+vim.keymap.set('n', '<up>', '<cmd>:DapContinue<cr>')
+vim.keymap.set('n', '<down>', '<cmd>:DapStepOver<cr>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -250,6 +258,25 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      'suketa/nvim-dap-ruby',
+      'microsoft/vscode-js-debug'
+    },
+    opts = {},
+    config = function()
+        require('dap-ruby').setup()
+    end
+  },
+  {
+    'rcarriga/nvim-dap-ui',
+    dependencies = {
+        'nvim-neotest/nvim-nio'
+    },
+    opts = {},
+  },
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
