@@ -193,6 +193,7 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- Debugging Keumaps
 vim.keymap.set('n', '<leader>d', '<cmd>:DapNew<cr>', { desc = 'Start debugger' })
 vim.keymap.set('n', '<leader>db', '<cmd>:DapToggleBreakpoint<cr>', { desc = 'Toggle breakpoint' })
+vim.keymap.set("n", "<leader>du", function() require("dapui").toggle() end)
 vim.keymap.set('n', '<left>', '<cmd>:DapStepOut<cr>')
 vim.keymap.set('n', '<right>', '<cmd>:DapStepInto<cr>')
 vim.keymap.set('n', '<up>', '<cmd>:DapContinue<cr>')
@@ -275,6 +276,9 @@ require('lazy').setup({
     dependencies = {
         'nvim-neotest/nvim-nio'
     },
+    config = function()
+      require("dapui").setup()
+    end,
     opts = {},
   },
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
