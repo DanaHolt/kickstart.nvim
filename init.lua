@@ -193,7 +193,9 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- Debugging Keumaps
 vim.keymap.set('n', '<leader>d', '<cmd>:DapNew<cr>', { desc = 'Start debugger' })
 vim.keymap.set('n', '<leader>db', '<cmd>:DapToggleBreakpoint<cr>', { desc = 'Toggle breakpoint' })
-vim.keymap.set("n", "<leader>du", function() require("dapui").toggle() end)
+vim.keymap.set('n', '<leader>du', function()
+  require('dapui').toggle()
+end)
 vim.keymap.set('n', '<left>', '<cmd>:DapStepOut<cr>')
 vim.keymap.set('n', '<right>', '<cmd>:DapStepInto<cr>')
 vim.keymap.set('n', '<up>', '<cmd>:DapContinue<cr>')
@@ -264,23 +266,24 @@ require('lazy').setup({
     'mfussenegger/nvim-dap',
     dependencies = {
       'suketa/nvim-dap-ruby',
-      'microsoft/vscode-js-debug'
+      'microsoft/vscode-js-debug',
     },
     opts = {},
     config = function()
-        require('dap-ruby').setup()
-    end
+      require('dap-ruby').setup()
+    end,
   },
   {
     'rcarriga/nvim-dap-ui',
     dependencies = {
-        'nvim-neotest/nvim-nio'
+      'nvim-neotest/nvim-nio',
     },
     config = function()
-      require("dapui").setup()
+      require('dapui').setup()
     end,
     opts = {},
   },
+
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
@@ -1047,5 +1050,32 @@ require('lazy').setup({
   },
 })
 
+require('dap').adapters['pwa-node'] = {
+  type = 'server',
+  host = '127.0.0.1',
+  port = '${port}',
+  executable = {
+    command = 'node',
+    args = {
+      vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug/dist/src/vsDebugServer.js',
+      '${port}',
+    },
+  },
+}
+
+require('dap').configurations.javascript = {
+  {
+    type = 'pwa-node',
+    request = 'launch',
+    name = 'Launch file (JS)',
+    program = '${file}',
+    cwd = '${workspaceFolder}',
+    runtimeExecutable = vim.fn.exepath 'node', -- avoid shims
+    console = 'integratedTerminal', -- simpler attach
+    stopOnEntry = true, -- pause immediately
+    sourceMaps = false, -- JS: no sourcemaps needed
+    skipFiles = { '<node_internals>/**' },
+  },
+}
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
