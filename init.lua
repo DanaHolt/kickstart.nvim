@@ -218,9 +218,9 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 vim.keymap.set({ 'i', 'v', 't' }, 'jk', '<esc>')
 vim.keymap.set('v', 'v', '<esc>')
-vim.keymap.set('n', '<leader>csv', '<cmd>:CsvViewToggle<cr>')
-vim.keymap.set('n', '<leader>ft', '<cmd>:Neotree toggle<cr>')
-vim.keymap.set('n', '<leader>bq', ':b#|bd#<cr>')
+vim.keymap.set('n', '<leader>csv', '<cmd>:CsvViewToggle<cr>', { desc = 'Toggle CSV Mode' })
+vim.keymap.set('n', '<leader>ft', '<cmd>:Neotree toggle<cr>', { desc = 'Toggle File Tree' })
+vim.keymap.set('n', '<leader>bq', ':b#|bd#<cr>', { desc = 'Close Current Buffer' })
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
