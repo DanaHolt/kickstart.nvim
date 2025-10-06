@@ -285,28 +285,6 @@ require('lazy').setup({
     },
     cmd = { 'CsvViewEnable', 'CsvViewDisable', 'CsvViewToggle' },
   },
-  {
-    'mfussenegger/nvim-dap',
-    dependencies = {
-      'suketa/nvim-dap-ruby',
-      'microsoft/vscode-js-debug',
-    },
-    opts = {},
-    config = function()
-      require('dap-ruby').setup()
-    end,
-  },
-  {
-    'rcarriga/nvim-dap-ui',
-    dependencies = {
-      'nvim-neotest/nvim-nio',
-    },
-    config = function()
-      require('dapui').setup()
-    end,
-    opts = {},
-  },
-
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
@@ -1073,32 +1051,5 @@ require('lazy').setup({
   },
 })
 
-require('dap').adapters['pwa-node'] = {
-  type = 'server',
-  host = '127.0.0.1',
-  port = '${port}',
-  executable = {
-    command = 'node',
-    args = {
-      vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug/dist/src/vsDebugServer.js',
-      '${port}',
-    },
-  },
-}
-
-require('dap').configurations.javascript = {
-  {
-    type = 'pwa-node',
-    request = 'launch',
-    name = 'Launch file (JS)',
-    program = '${file}',
-    cwd = '${workspaceFolder}',
-    runtimeExecutable = vim.fn.exepath 'node', -- avoid shims
-    console = 'integratedTerminal', -- simpler attach
-    stopOnEntry = true, -- pause immediately
-    sourceMaps = false, -- JS: no sourcemaps needed
-    skipFiles = { '<node_internals>/**' },
-  },
-}
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
