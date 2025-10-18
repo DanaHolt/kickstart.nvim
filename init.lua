@@ -195,7 +195,7 @@ vim.keymap.set('n', '<leader>d', '<cmd>:DapNew<cr>', { desc = 'Start debugger' }
 vim.keymap.set('n', '<leader>db', '<cmd>:DapToggleBreakpoint<cr>', { desc = 'Toggle breakpoint' })
 vim.keymap.set('n', '<leader>du', function()
   require('dapui').toggle()
-end)
+end, { desc = 'Toggle Debug UI' })
 vim.keymap.set('n', '<left>', '<cmd>:DapStepOut<cr>')
 vim.keymap.set('n', '<right>', '<cmd>:DapStepInto<cr>')
 vim.keymap.set('n', '<up>', '<cmd>:DapContinue<cr>')
@@ -721,7 +721,10 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
-        ruby_lsp = {},
+        ruby_lsp = {
+          mason = false,
+          cmd = { vim.fn.expand 'ruby-lsp' },
+        },
         ts_ls = {},
         lua_ls = {
           -- cmd = { ... },
@@ -1001,6 +1004,22 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      'suketa/nvim-dap-ruby',
+    },
+    config = function()
+      require('dap-ruby').setup()
+    end,
+  },
+  {
+    'rcarriga/nvim-dap-ui',
+    dependencies = {
+      'mfussenegger/nvim-dap',
+      'nvim-neotest/nvim-nio',
+    },
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
